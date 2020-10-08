@@ -1,0 +1,165 @@
+{% extends "public/template.html" %}
+{% import "macros/input_macros.html" as im %}
+
+
+
+{% block title %}Jinja{% endblock %}
+
+{% block main %}
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>Jinja</h1>
+      <hr>
+      <p>{{ my_name }}</p>
+
+      <h4> Looping through an iterable</h4>
+      <hr>
+      
+      <strong class="d-block mb-3"> Programming languages </strong>
+      <ul>
+      	{% for lang in langs %}
+      	<li>{{ lang }}</li>
+      	{% endfor %}
+      </ul>
+
+      <h4> Looping and enumerating an iterable</h4>
+      <hr>
+      
+      <strong class="d-block mb-3"> Programming languages </strong>
+      <ul>
+      	{% for lang in langs %}
+      	<!-- use loop.index to start enumerating at 1. -->
+      	<li>{{ loop.index0 }} - {{ lang }}</li>
+      	{% endfor %}
+      </ul>
+
+      <h4>Looping key/value pairs in a dict</h4>
+      <hr>
+
+      <strong class="d-block mb-3">Friends & ages</strong>
+      <ul>
+      {% for name, age in friends.items() %}
+      <li> {{ name }} - {{ age }} </li>
+      {% endfor %}
+      </ul>
+
+    <!-- calling functions -->
+
+    <h4> Calling Functions </h4>
+    <hr>
+    <p> {{ repeat('Python is superb!', 10) }} </p>
+
+    <!-- accessing a list index -->
+
+    <h4>List index</h4>
+	<hr>
+	<p>{{ langs[0] }}</p>
+
+	<!-- accessing a dictionary value  -->
+
+	<h4>Dictionary value</h4>
+    <hr>
+    <p>{{ friends["Takefuso"] }}</p>
+
+    <!-- accessing a class attribute -->
+
+    <h4>Class attributes</h4>
+	<hr>
+	<p>{{ my_remote.description }}</p>
+
+    <!-- acessing a class method  -->
+	<h4>Class methods</h4>
+	<hr>
+    <p>{{ my_remote.pull() }}</p>
+    
+    <!-- Creating objects and accessing its properties in Jinja -->
+    <h4> Create a Class Object in Jinja</h4>
+    <hr>
+	{% set new_repo = GitRemote(
+	    name="See Sintra Fly",
+	    description="Web development foundations using Sinatra",
+	    domain="https://github.com/dancingpixels/see-sinatra.git") 
+    %}
+    <p>{{  new_repo.description }}</p>
+
+    <!-- Unpacking variables  -->
+    <h4> Unpacking variables</h4>
+    <hr>
+    {% set first,second = clubs %}
+    <p>{{ first }}</p>
+    <p>{{ second }}</p>
+
+    <!-- Conditionals & Comparison operators -->
+    <h4>Condtional If</h4>
+    <hr>
+    {% if cool_beans %}
+    <p> Cool Beans = {{ cool_beans }}</p>
+    {% endif %}
+
+    <h4>Condtional If/Else</h4>
+    <hr>
+    {% if my_age < 18 %}
+    <p> No entry </p>
+    {% elif my_age <= 25 %}
+    <p>You may enter </p>
+    {% else %}
+    <p>Entry denied: you are not cool anymore!</p>
+    {% endif %}
+
+    <!-- Template filters -->
+    <h4>Built-in  Filters</h4>
+    <hr>
+    <p> The are  {{ langs|length }} languages in the list.</p>
+
+    <h4>Filters & conditionals</h4>
+	<hr>
+	{% if langs|length > 2 %}
+	  {% for lang in langs %}
+	    {% if lang == "Python" %}
+	      <p>{{ lang|upper }}</p>
+	    {% else %}
+	      <p>{{ lang|reverse }}</p>
+	    {% endif %}
+	  {% endfor %}
+	{% endif %}
+
+	<h4> Join filter </h4>
+	<hr>
+	<p>Unjoined: {{ langs }}</p>
+	<p>Joined: {{ langs | join(", ") }}</p>
+
+	<!-- Custom Filters -->
+    <h4>Custom Filter </h4>
+    <hr>
+    <p>{{ date }}</p>
+    <p> {{ date | clean_date }}</p>
+
+    <h4>Escaped</h4>
+    <hr>
+    {{ my_html|safe }}
+
+<!--     <h4>Suspicous Script</h4>
+    <hr>
+    {{ suspicious| safe }}
+ -->
+
+    <!-- Macros -->
+    <h4>Macros</h4>
+    <hr>
+ 
+
+    <form action="#" method="post">
+    	 {{ im.input(label="Name", id="name", name="name", placeholder="Enter your name") }}
+
+         {{ im.input(label="Email", type="email", id="email", name="email", placeholder="Enter your email") }}
+
+        {{ im.input(label="Password", id="password", name="password", placeholder="Enter your password") }}
+    </form>
+
+   </div>
+  </div>
+</div>
+{% endblock %}
+
