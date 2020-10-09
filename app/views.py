@@ -1,6 +1,8 @@
 from app import app # importing app variable from the app folder
 from flask import render_template
 from datetime import datetime
+from flask import request
+from flask import redirect
 
 @app.route("/")
 def index():
@@ -9,6 +11,35 @@ def index():
 @app.route("/about")
 def about():
 	return render_template("public/about.html")
+
+@app.route("/sign-up", methods=["GET","POST"])
+def sign_up():
+
+	if request.method == 'POST':
+		
+		username = request.form.get('username')
+		email = request.form.get('email')
+		password = request.form.get('password')
+
+		# An alternate way of getting information from forms
+
+		# username = request.form['username']
+		# email = request.form['email']
+		# password = request.form['password']
+
+		req = request.form
+		missing = list()
+
+		for key, value in req.items():
+			if value == "":
+				missing.append(key)
+
+		if missing:
+			feedback = f"Missing fields for {', '.join(missing)}"
+			return render_template("public/sign_up.html", feedback=feedback)
+
+		return redirect(request.url)
+	return render_template("public/sign_up.html")
 
 @app.route("/jinja")
 def jinja():
