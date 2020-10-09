@@ -12,6 +12,43 @@ def index():
 def about():
 	return render_template("public/about.html")
 
+# routes with multiple variables
+@app.route("/multiple/<one>/<two>/<three>")
+def multiple(one, two, three):
+	return f"One is {one}, two is {two}, three is {three}."
+
+# dynamic urls
+@app.route("/profile/<username>")
+def profile(username):
+
+	users = {
+	    "rona": {
+	        "name": "Armin Ronacher",
+	        "bio": "Creator of the Flask framework",
+	        "twitter_handle": "@mitsuhiko"
+	    },
+	    "guido": {
+	        "name": "Guido Van Rossum",
+	        "bio": "Creator of the Python programming language",
+	        "twitter_handle": "@gvanrossum"
+	    },
+	    "elonmusk": {
+	        "name": "Elon Musk",
+	        "bio": "technology entrepreneur, investor, and engineer",
+	        "twitter_handle": "@elonmusk"
+	    }
+    }
+
+	user = None
+
+	if username in users:
+		user = users[username]
+
+	return render_template("public/profile.html", 
+		                   username=username,
+		                   user=user)
+
+
 @app.route("/sign-up", methods=["GET","POST"])
 def sign_up():
 
