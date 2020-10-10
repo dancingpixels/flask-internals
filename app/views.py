@@ -6,6 +6,9 @@ from flask import redirect
 
 @app.route("/")
 def index():
+	app.config["SECRET_KEY"] = "iuhto743yto34iuho287gh78"
+	print(app.config["SECRET_KEY"])
+	print(app.config)
 	return render_template("public/index.html")
 
 @app.route("/about")
