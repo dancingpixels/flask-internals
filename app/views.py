@@ -1,8 +1,14 @@
 from app import app # importing app variable from the app folder
+
 from flask import render_template
 from datetime import datetime
 from flask import request
 from flask import redirect
+from flask import session
+from flask import url_for
+from flask import flash
+
+
 
 @app.route("/")
 def index():
@@ -162,3 +168,16 @@ def query():
 	else:
 
 	    return "No query string received", 200 
+
+@app.route("/upload-image", methods=["GET","POST"])
+def upload_image():
+	if request.method == "POST":
+
+		if request.files:
+			img = request.files["image"]
+			print(img)
+
+			return redirect(request.url)
+
+	return render_template("public/upload_image.html")
+
